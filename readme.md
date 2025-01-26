@@ -1,4 +1,4 @@
-# Simple Phaser3 with TS Template
+# Dino game
 
 ## Setup
 
@@ -9,7 +9,7 @@
 3. Navigate into the project directory
 
 ```bash
-  $ cd phaser3-typescript-simple-template
+  $ cd dino-game
 ```
 
 4. Install the requirements
@@ -21,5 +21,5 @@
 5. Run the app
 
 ```bash
-  $ npm run dev
+  $ npm start
 ```
