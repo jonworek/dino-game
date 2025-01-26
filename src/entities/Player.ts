@@ -1,5 +1,6 @@
 class Player extends Phaser.Physics.Arcade.Sprite {
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+  maxSpeed: number = 200;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y, "dino-idle-2");
@@ -15,7 +16,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   update() {
-    if (this.y === this.scene.game.config.height as number) {
+    if (this.y === (this.scene.game.config.height as number)) {
       if (this.cursors.space.isDown || this.cursors.up.isDown) {
         this.jump();
       }
@@ -36,11 +37,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   moveRight() {
-    this.setVelocityX(100);
+    this.setVelocityX(this.maxSpeed);
   }
 
   moveLeft() {
-    this.setVelocityX(-100);
+    this.setVelocityX(-this.maxSpeed);
   }
 }
 

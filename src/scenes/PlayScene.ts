@@ -27,6 +27,7 @@ export default class PlayScene extends Phaser.Scene {
 
   createPlayer() {
     this.player = new Player(this, 0, this.height);
+    //new Player(this, 300, this.height).setFlipX(true);
   }
 
   createEnvironment() {
