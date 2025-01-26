@@ -47,7 +47,8 @@ module.exports = {
       'WEBGL_RENDERER': JSON.stringify(true)
     }),
     new HtmlWebpackPlugin({
-      template: './index.html'
+      template: './index.html',
+      favicon: './assets/favicon.ico'
     }),
     new CopyPlugin({
       patterns: [
