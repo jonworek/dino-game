@@ -33,10 +33,18 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     if ((this.body as Phaser.Physics.Arcade.Body)?.onFloor()) {
       this.setAngle(0);
 
+      if (this.cursors.down.isDown) {
+        this.crouch();
+        return;
+      }
+
       if (!this.anims.isPlaying) {
         // play the 'dino-run' animation if not already playing
+        this.setTexture("dino-run", 0);
         this.anims.resume();
       }
+
+      this.body.setSize(this.width, this.height);
 
       if (
         this.cursors.space.isDown ||
@@ -44,6 +52,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene.input.activePointer.isDown
       ) {
         this.jump();
+        return;
       }
 
       // lateral movement
@@ -64,9 +73,18 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.anims.create({
       key: "dino-run",
       frames: this.anims.generateFrameNames("dino-run"),
-      frameRate: 10,
+      frameRate: 20,
       repeat: -1,
     });
+  }
+
+  crouch() {
+    this.setTexture("dino-down");
+    this.body.setSize(this.width, this.height);
+    this.setVelocityY(1000);
+    this.anims?.pause();
+    console.log("crouch");
+    this.setVelocityX(0);
   }
 
   jump() {

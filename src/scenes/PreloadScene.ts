@@ -15,6 +15,10 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image("dino-hurt", "assets/dino-hurt.png");
     this.load.image("restart", "assets/restart.png");
     this.load.image("game-over", "assets/game-over.png");
+    this.load.spritesheet("dino-down", "assets/dino-down.png", {
+      frameWidth: 236 / 2,
+      frameHeight: 58,
+    });
 
     for (let i = 1; i <= 6; i++) {
       this.load.image(`cactus-${i}`, `assets/cactuses_${i}.png`);
