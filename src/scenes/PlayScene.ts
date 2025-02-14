@@ -45,12 +45,7 @@ export default class PlayScene extends Phaser.Scene {
     console.log("restartText interactive:", this.restartText.input.enabled);
 
     // Attach the event listener
-    this.restartText.on("pointerdown", () => {
-      console.log("restarting");
-      this.scene.restart();
-      this.isGameRunning = true;
-      this.physics.resume();
-    });
+    this.restartText.on("pointerdown", this.handleRestart, this);
 
     this.gameOverContainer = this.add
       .container(this.width / 2, this.height / 2)
@@ -62,6 +57,40 @@ export default class PlayScene extends Phaser.Scene {
       callback: this.spawnObstacle,
       callbackScope: this,
       loop: true,
+    });
+  }
+
+  handleRestart() {
+    console.log("restarting");
+
+    const restartDelay = 3;
+    let countdown = restartDelay;
+
+    const buildRestartText = (delay: number) => `restarting in ${delay}...`;
+
+    let restartingText = this.add.text(10, 10, buildRestartText(countdown), {
+      fontFamily: "Arial",
+      fontSize: "32px",
+      color: "#ff0000",
+    });
+
+    this.time.addEvent({
+      delay: 1000,
+      callback: () => {
+        restartingText.setText(buildRestartText(--countdown));
+      },
+      callbackScope: this,
+      repeat: restartDelay - 1,
+    });
+
+    this.time.addEvent({
+      delay: restartDelay * 1000,
+      callback: () => {
+        this.scene.restart();
+        this.isGameRunning = true;
+        this.physics.resume();
+      },
+      callbackScope: this,
     });
   }
 

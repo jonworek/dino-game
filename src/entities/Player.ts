@@ -23,6 +23,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   update(time: number, delta: number) {
+    if (!this.scene?.physics?.world) return;
+    if (this.scene?.physics.world.isPaused) return;
+
     this.handleInput();
   }
 
