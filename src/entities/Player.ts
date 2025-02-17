@@ -38,22 +38,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         return;
       }
 
-      if (!this.anims.isPlaying) {
-        // play the 'dino-run' animation if not already playing
-        this.setTexture("dino-run", 0);
-        this.anims.resume();
-      }
-
-      this.body.setSize(this.width, this.height);
-
-      if (
-        this.cursors.space.isDown ||
-        this.cursors.up.isDown ||
-        this.scene.input.activePointer.isDown
-      ) {
+      if (this.cursors.space.isDown || this.cursors.up.isDown) {
         this.jump();
         return;
       }
+
+      this.anims.play("dino-run", true);
+      this.body.setSize(this.width - 40, this.height);
 
       // lateral movement
       if (this.cursors?.right.isDown && !this.cursors?.left.isDown) {
@@ -64,8 +55,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.setVelocityX(0);
       }
     } else {
-      // stop the 'dino-run' animation while in the air
-      this.anims?.pause();
+      // we're in the air
+      this.anims.play("dino-jump", true);
     }
   }
 
@@ -76,20 +67,36 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       frameRate: 20,
       repeat: -1,
     });
+
+    this.anims.create({
+      key: "dino-jump",
+      frames: this.anims.generateFrameNames("dino-run"),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "dino-down",
+      frames: this.anims.generateFrameNames("dino-down"),
+      frameRate: 10,
+      repeat: -1,
+    });
   }
 
   crouch() {
-    this.setTexture("dino-down");
+    console.log("crouch");
+
+    this.anims.play("dino-down", true);
     this.body.setSize(this.width, this.height);
     this.setVelocityY(1000);
-    this.anims?.pause();
-    console.log("crouch");
     this.setVelocityX(0);
   }
 
   jump() {
     console.log("jump");
+
     this.setTexture("dino-run", 0);
+    this.body.setSize(this.width - 40, this.height - 15);
     this.setAngle(-5);
     this.setVelocityY(-300);
   }
